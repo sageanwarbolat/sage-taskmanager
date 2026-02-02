@@ -258,18 +258,7 @@ class TaskManager {
      */
     createTaskElement(task) {
         const li = document.createElement('li');
-        const taskText = this.input.value.trim();
-
-        if (!taskText) {
-            this.showError('Please enter a task description');
-            this.input.focus();
-            return;
-        }
-
-        if (taskText.length > 200) {
-            this.showError('Task description cannot exceed 200 characters');
-            return;
-        }
+        li.className = `task-item ${task.completed ? 'completed' : ''}`;
         li.setAttribute('data-task-id', task.id);
 
         const checkbox = document.createElement('input');
