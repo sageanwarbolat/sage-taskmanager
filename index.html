@@ -1,4 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A modern, accessible task manager web application">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="container">
+        <header class="header">
+            <h1>Task Manager</h1>
+            <p class="subtitle">Stay organized and productive</p>
+        </header>
 
+        <section class="task-input-section" aria-labelledby="add-task-heading">
+            <h2 id="add-task-heading" class="sr-only">Add a new task</h2>
+            <form class="task-form" id="taskForm" novalidate>
+                <div class="input-group">
+                    <input
+                        type="text"
+                        id="taskInput"
+                        class="task-input"
+                        placeholder="Add a new task..."
+                        aria-label="Task description"
+                        autocomplete="off"
+                        required
+                    >
+                    <button
+                        type="submit"
+                        class="add-button"
+                        aria-label="Add task"
+                    >
+                        <span class="button-icon">+</span>
+                        <span class="button-text">Add</span>
+                    </button>
+                </div>
+                <div id="formError" class="error-message" role="alert" aria-live="polite"></div>
+            </form>
+        </section>
+
+        <section class="tasks-section" aria-labelledby="tasks-heading">
+            <div class="tasks-header">
+                <h2 id="tasks-heading">Tasks</h2>
+                <div class="tasks-stats" aria-live="polite" aria-atomic="true">
+                    <span class="stat">
+                        <span class="stat-label">Total:</span>
+                        <span id="totalCount" class="stat-value">0</span>
+                    </span>
+                    <span class="stat">
+                        <span class="stat-label">Completed:</span>
+                        <span id="completedCount" class="stat-value">0</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="tasks-filter" aria-label="Filter tasks">
+                <button
+                    type="button"
+                    id="filterAll"
+                    class="filter-button active"
+                    aria-label="Show all tasks"
+                    aria-pressed="true"
+                >
+                    All
+                </button>
+                <button
+                    type="button"
+                    id="filterPending"
+                    class="filter-button"
+                    aria-label="Show pending tasks"
+                    aria-pressed="false"
+                >
+                    Pending
+                </button>
+                <button
+                    type="button"
+                    id="filterCompleted"
+                    class="filter-button"
+                    aria-label="Show completed tasks"
+                    aria-pressed="false"
+                >
+                    Completed
+                </button>
+            </div>
+
+            <div id="tasksContainer" class="tasks-container">
+                <div class="empty-state" id="emptyState">
+                    <p class="empty-message">No tasks yet. Add one to get started!</p>
+                </div>
+                <ul id="tasksList" class="tasks-list" aria-label="Task list"></ul>
+            </div>
+
+            <div class="tasks-actions">
+                <button
+                    id="clearCompletedBtn"
+                    class="secondary-button"
+                    aria-label="Clear all completed tasks"
+                    disabled
+                >
+                    Clear Completed
+                </button>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>Keep track of what matters</p>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
 </html>
