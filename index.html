@@ -33,7 +33,7 @@
             <h2 id="add-task-heading" class="sr-only">Add a new task</h2>
             <form class="task-form" id="taskForm" novalidate>
                 <label for="taskInput" class="input-label">Add a new task</label>
-                <div class="input-group">
+                <div class="input-group" data-node-id="I1:1986;114517:10936">
                     <input
                         type="text"
                         id="taskInput"
@@ -43,10 +43,20 @@
                         autocomplete="off"
                         required
                     >
+                    <!-- Divider: DividerHr component from Carbon (type: vertical, variant: typical) -->
+                    <div class="input-divider" data-node-id="I1:1986;114517:10943" data-component="DividerHr" data-type="vertical" data-variant="typical"></div>
+                    <!-- Button: SimpleButton component with PlusLarge icon (size: L, importance: subtle, icon-only) -->
                     <button
                         type="submit"
                         class="add-button"
                         aria-label="Add task"
+                        data-node-id="I1:1986;114517:10944"
+                        data-component="SimpleButton"
+                        data-has-left-icon="true"
+                        data-left-icon="PlusLarge"
+                        data-icon-only="true"
+                        data-importance="subtle"
+                        data-size="L"
                     >
                         <span class="plus-icon" aria-hidden="true">+</span>
                         <span class="sr-only">Add</span>
@@ -109,11 +119,19 @@
             </div>
 
             <div class="tasks-actions">
+                <!-- Button: SimpleButton component for Clear Completed (importance: secondary, size: M) -->
                 <button
                     id="clearCompletedBtn"
                     class="secondary-button"
                     aria-label="Clear all completed tasks"
                     disabled
+                    data-node-id="1:2594"
+                    data-component="SimpleButton"
+                    data-label-text="Clear Completed"
+                    data-importance="secondary"
+                    data-size="M"
+                    data-has-left-icon="false"
+                    data-has-right-icon="false"
                 >
                     Clear Completed
                 </button>

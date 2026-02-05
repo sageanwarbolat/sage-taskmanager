@@ -1,0 +1,6 @@
+{
+  "code": {
+    "include": ".figma/**/*.figma.ts",
+    "parser": "typescript"
+  }
+}
