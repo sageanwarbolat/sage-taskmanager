@@ -10,6 +10,22 @@
 <body>
     <main class="container">
         <header class="header">
+            <div class="theme-toggle-group">
+                <label class="theme-label">Dark mode</label>
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" aria-pressed="false">
+                    <span class="toggle-track" aria-hidden="true">
+                        <svg class="icon icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 4V2M12 22v-2M4 12H2M22 12h-2M5 5l-1.5-1.5M20.5 20.5 19 19M19 5l1.5-1.5M4.5 19.5 6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <svg class="icon icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="toggle-knob" aria-hidden="true"></span>
+                    </span>
+                </button>
+                <span id="themeState" class="theme-state" aria-hidden="true">Off</span>
+            </div>
             <h1>Task Manager</h1>
             <p class="subtitle">Stay organized and productive</p>
         </header>
@@ -17,12 +33,13 @@
         <section class="task-input-section" aria-labelledby="add-task-heading">
             <h2 id="add-task-heading" class="sr-only">Add a new task</h2>
             <form class="task-form" id="taskForm" novalidate>
+                <label for="taskInput" class="input-label">Add a new task</label>
                 <div class="input-group">
                     <input
                         type="text"
                         id="taskInput"
                         class="task-input"
-                        placeholder="Add a new task..."
+                        placeholder="e.g. Finish project report"
                         aria-label="Task description"
                         autocomplete="off"
                         required
@@ -32,8 +49,8 @@
                         class="add-button"
                         aria-label="Add task"
                     >
-                        <span class="button-icon">+</span>
-                        <span class="button-text">Add</span>
+                        <span class="plus-icon" aria-hidden="true">+</span>
+                        <span class="sr-only">Add</span>
                     </button>
                 </div>
                 <div id="formError" class="error-message" role="alert" aria-live="polite"></div>
@@ -72,7 +89,7 @@
                     aria-label="Show pending tasks"
                     aria-pressed="false"
                 >
-                    Pending
+                    Active
                 </button>
                 <button
                     type="button"

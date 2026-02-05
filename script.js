@@ -5,6 +5,7 @@ class TaskManager {
         this.storageKey = 'taskManagerTasks';
         this.currentFilter = 'all'; // 'all', 'pending', 'completed'
         this.initElements();
+        this.loadTheme();
         this.attachEventListeners();
         this.loadTasks();
         this.render();
@@ -26,6 +27,8 @@ class TaskManager {
         this.filterAllBtn = document.getElementById('filterAll');
         this.filterPendingBtn = document.getElementById('filterPending');
         this.filterCompletedBtn = document.getElementById('filterCompleted');
+        this.themeToggle = document.getElementById('themeToggle');
+        this.themeState = document.getElementById('themeState');
     }
 
     /**
@@ -35,6 +38,10 @@ class TaskManager {
         this.form.addEventListener('submit', (e) => this.handleAddTask(e));
         this.clearCompletedBtn.addEventListener('click', () => this.clearCompleted());
         this.input.addEventListener('input', () => this.clearError());
+
+        if (this.themeToggle) {
+            this.themeToggle.addEventListener('click', () => this.toggleTheme());
+        }
 
         // Filter button listeners
         this.filterAllBtn.addEventListener('click', () => this.setFilter('all'));
@@ -189,6 +196,55 @@ class TaskManager {
                 btn.setAttribute('aria-pressed', 'false');
             }
         });
+    }
+
+    /**
+     * Load saved theme preference or use system preference
+     */
+    loadTheme() {
+        try {
+            const stored = localStorage.getItem('sageTheme');
+            if (stored) {
+                this.applyTheme(stored);
+                return;
+            }
+        } catch (e) {
+            // ignore
+        }
+
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        this.applyTheme(prefersDark ? 'dark' : 'light');
+    }
+
+    /**
+     * Apply theme and persist preference
+     */
+    applyTheme(theme) {
+        document.body.setAttribute('data-theme', theme);
+        try {
+            localStorage.setItem('sageTheme', theme);
+        } catch (e) {
+            // ignore
+        }
+
+        if (this.themeToggle) {
+            const pressed = theme === 'dark';
+            this.themeToggle.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+        }
+
+        // Update state label
+        if (this.themeState) {
+            this.themeState.textContent = theme === 'dark' ? 'On' : 'Off';
+        }
+    }
+
+    /**
+     * Toggle between light and dark themes
+     */
+    toggleTheme() {
+        const current = document.body.getAttribute('data-theme') || 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        this.applyTheme(next);
     }
 
     /**

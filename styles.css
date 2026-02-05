@@ -1,25 +1,49 @@
+/* Sage UI webfont (place `SageUI-*.woff2` files in `/fonts`) */
+@font-face {
+    font-family: 'Sage UI';
+    src: url('fonts/SageUI-Regular.woff2') format('woff2'),
+         url('fonts/SageUI-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sage UI';
+    src: url('fonts/SageUI-Bold.woff2') format('woff2'),
+         url('fonts/SageUI-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* CSS Variables for theming */
 :root {
-    --primary-color: #6366f1;
-    --primary-hover: #4f46e5;
-    --primary-active: #4338ca;
-    --success-color: #10b981;
-    --danger-color: #ef4444;
-    --danger-hover: #dc2626;
-    --background: #f9fafb;
-    --surface: #ffffff;
-    --surface-alt: #f3f4f6;
-    --text-primary: #1f2937;
-    --text-secondary: #6b7280;
-    --text-muted: #9ca3af;
-    --border-color: #e5e7eb;
+    --primary-color: #000000;
+    --primary-hover: #1f2937;
+    --primary-active: #111827;
+    --success-color: #008120;
+    --danger-color: #db004e;
+    --danger-hover: #c40047;
+    --background: #f4f5f6;
+    --surface: #000000;
+    --surface-alt: #f4f5f6;
+    --text-primary: #000000;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --text-inverse: rgba(255, 255, 255, 0.95);
+    --text-inverse-muted: rgba(255, 255, 255, 0.67);
+    --border-color: #505050;
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    --radius-sm: 0.375rem;
-    --radius-md: 0.5rem;
+    --radius-sm: 4px;
+    --radius-md: 8px;
     --radius-lg: 0.75rem;
     --transition: all 0.2s ease;
+    --font-family-sage: 'Sage UI', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-family-heading: var(--font-family-sage);
+    --font-family-body: var(--font-family-sage);
 }
 
 /* Dark mode */
@@ -38,6 +62,148 @@
     }
 }
 
+/* Allow JS theme toggle to override system preference */
+body[data-theme="dark"] {
+    --primary-color: #818cf8;
+    --primary-hover: #6366f1;
+    --primary-active: #4f46e5;
+    --background: #111827;
+    --surface: #1f2937;
+    --surface-alt: #374151;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
+    --border-color: #374151;
+}
+
+body[data-theme="light"] {
+    --background: #f4f5f6;
+    --surface: #000000;
+    --surface-alt: #f4f5f6;
+    --text-primary: #000000;
+    --text-secondary: #4a5568;
+    --border-color: #505050;
+}
+
+/* Theme toggle group container */
+.theme-toggle-group {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.theme-label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    user-select: none;
+}
+
+.theme-state {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    user-select: none;
+    min-width: 32px;
+    transition: color 0.16s ease;
+}
+
+body[data-theme="dark"] .theme-state {
+    color: var(--text-secondary);
+}
+
+/* Theme toggle button */
+.theme-toggle {
+    width: 72px;
+    height: 36px;
+    padding: 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.06);
+    background: rgba(0,0,0,0.04);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.16s ease, transform 0.12s ease;
+}
+
+.theme-toggle .icon { display: none; }
+
+/* Track contains icons and knob */
+.toggle-track {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.toggle-track .icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    opacity: 0.9;
+    transition: opacity 0.16s ease, color 0.16s ease;
+}
+
+.icon-sun { left: 10px; }
+.icon-moon { right: 10px; }
+
+.toggle-knob {
+    --knob-size: 24px;
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    width: var(--knob-size);
+    height: var(--knob-size);
+    transform: translateY(-50%) translateX(0);
+    background: var(--surface);
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+    transition: transform 0.18s cubic-bezier(.2,.9,.2,1), background-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+/* Light theme default state: knob left, sun highlighted */
+body[data-theme="light"] .toggle-knob {
+    transform: translateY(-50%) translateX(-75%);
+    background: #ffffff;
+}
+
+body[data-theme="light"] .icon-sun {
+    color: #f59e0b;
+    opacity: 1;
+}
+
+body[data-theme="light"] .icon-moon {
+    opacity: 0.45;
+}
+
+/* Dark theme: move knob to right and highlight moon */
+body[data-theme="dark"] .toggle-knob {
+    transform: translateY(-50%) translateX(75%);
+    background: var(--text-inverse);
+}
+
+body[data-theme="dark"] .theme-toggle {
+    background: rgba(255,255,255,0.04);
+}
+
+body[data-theme="dark"] .icon-moon {
+    color: #7c3aed;
+    opacity: 1;
+}
+
+body[data-theme="dark"] .icon-sun { opacity: 0.45; }
+
+@media (max-width: 640px) {
+    .theme-toggle { right: 0.5rem; top: 0.25rem; }
+}
+
 /* Reset and base styles */
 * {
     margin: 0;
@@ -50,7 +216,8 @@ html {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-family-body);
+    font-size: 16px;
     background-color: var(--background);
     color: var(--text-primary);
     line-height: 1.6;
@@ -86,6 +253,7 @@ body {
     text-align: center;
     margin-bottom: 2.5rem;
     animation: slideDown 0.6s ease-out;
+    position: relative;
 }
 
 @keyframes slideDown {
@@ -100,19 +268,18 @@ body {
 }
 
 .header h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 30px; /* step6 */
+    font-weight: 700;
+    color: var(--text-primary);
     margin-bottom: 0.5rem;
+    font-family: var(--font-family-heading);
 }
 
 .subtitle {
-    font-size: 1rem;
+    font-size: 18px; /* step2 */
     color: var(--text-secondary);
     font-weight: 500;
+    font-family: var(--font-family-body);
 }
 
 /* Task input section */
@@ -136,15 +303,15 @@ body {
     font-size: 1rem;
     border: 2px solid var(--border-color);
     border-radius: var(--radius-md);
-    background-color: var(--surface);
+    background-color: var(--surface-alt);
     color: var(--text-primary);
     transition: var(--transition);
     outline: none;
 }
 
 .task-input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    border-color: var(--text-primary);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
 }
 
 .task-input::placeholder {
@@ -152,30 +319,26 @@ body {
 }
 
 .add-button {
-    padding: 0.875rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    color: white;
-    background-color: var(--primary-color);
+    width: 40px;
+    height: 40px;
+    padding: 0;
     border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
+    border-radius: 999px;
+    background-color: var(--text-primary);
+    color: var(--text-inverse);
+    display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    white-space: nowrap;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.12s ease, background-color 0.12s ease;
 }
 
 .add-button:hover {
-    background-color: var(--primary-hover);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
 }
 
 .add-button:active {
-    background-color: var(--primary-active);
-    transform: translateY(0);
+    transform: scale(0.96);
 }
 
 .add-button:focus-visible {
@@ -183,13 +346,17 @@ body {
     outline-offset: 2px;
 }
 
-.button-icon {
+.plus-icon {
     font-size: 1.25rem;
-    font-weight: bold;
+    line-height: 1;
 }
 
-.button-text {
-    display: none;
+.input-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.95rem;
 }
 
 /* Error message */
@@ -233,6 +400,7 @@ body {
 .tasks-header h2 {
     font-size: 1.5rem;
     font-weight: 700;
+    color: var(--text-primary);
 }
 
 .tasks-stats {
@@ -249,13 +417,14 @@ body {
 
 .stat-label {
     color: var(--text-secondary);
-    font-weight: 500;
+    font-weight: 400;
+    font-size: 0.875rem;
 }
 
 .stat-value {
-    color: var(--primary-color);
-    font-weight: 700;
-    font-size: 1.1rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 0.875rem;
 }
 
 /* Tasks container */
@@ -288,8 +457,9 @@ body {
     align-items: center;
     gap: 1rem;
     padding: 1rem;
+    height: 64px;
     background-color: var(--surface);
-    border: 1px solid var(--border-color);
+    border: 0.556px solid var(--border-color);
     border-radius: var(--radius-md);
     transition: var(--transition);
     animation: slideIn 0.3s ease-out;
@@ -308,11 +478,11 @@ body {
 
 .task-item:hover {
     box-shadow: var(--shadow-sm);
-    border-color: var(--primary-color);
+    border-color: var(--text-inverse-muted);
 }
 
 .task-item.completed {
-    opacity: 0.7;
+    opacity: 1;
 }
 
 /* Checkbox */
@@ -321,7 +491,9 @@ body {
     width: 1.5rem;
     height: 1.5rem;
     cursor: pointer;
-    accent-color: var(--success-color);
+    accent-color: var(--text-inverse);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
 }
 
 .task-checkbox:focus-visible {
@@ -333,23 +505,26 @@ body {
 .task-text {
     flex: 1;
     word-break: break-word;
+    color: var(--text-inverse);
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
 .task-item.completed .task-text {
     text-decoration: line-through;
-    color: var(--text-muted);
+    color: var(--text-inverse-muted);
 }
 
 /* Task delete button */
 .delete-button {
     flex-shrink: 0;
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 2rem;
+    height: 2rem;
     padding: 0;
     border: none;
-    border-radius: var(--radius-md);
-    background-color: transparent;
-    color: var(--danger-color);
+    border-radius: 50%;
+    background-color: var(--danger-color);
+    color: white;
     cursor: pointer;
     font-size: 1.25rem;
     transition: var(--transition);
@@ -359,8 +534,7 @@ body {
 }
 
 .delete-button:hover {
-    background-color: rgba(239, 68, 68, 0.1);
-    color: var(--danger-hover);
+    background-color: var(--danger-hover);
 }
 
 .delete-button:active {
@@ -378,30 +552,40 @@ body {
     gap: 0.75rem;
     margin-bottom: 1.5rem;
     flex-wrap: wrap;
+    border: 1px solid var(--text-primary);
+    border-radius: 24px;
+    padding: 4px;
+    width: fit-content;
 }
 
 .filter-button {
-    padding: 0.625rem 1.25rem;
-    font-size: 0.9rem;
-    font-weight: 600;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
     color: var(--text-secondary);
-    background-color: var(--surface-alt);
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius-md);
+    background-color: transparent;
+    border: none;
+    border-radius: 20px;
     cursor: pointer;
     transition: var(--transition);
+    line-height: 1.5;
 }
 
 .filter-button:hover:not(.active) {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
+    color: var(--text-primary);
 }
 
 .filter-button.active {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+    background-color: var(--text-primary);
+    border-color: var(--text-primary);
     color: white;
     box-shadow: var(--shadow-sm);
+}
+
+body[data-theme="dark"] .filter-button.active {
+    background-color: white;
+    border-color: white;
+    color: #000000;
 }
 
 .filter-button:focus-visible {
@@ -417,21 +601,24 @@ body {
 }
 
 .secondary-button {
-    padding: 0.75rem 1.5rem;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    background-color: var(--surface-alt);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--success-color);
+    background-color: rgba(0, 129, 32, 0.03);
+    border: 2px solid var(--success-color);
+    border-radius: 20px;
     cursor: pointer;
     transition: var(--transition);
+    line-height: 1.5;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .secondary-button:not(:disabled):hover {
-    background-color: var(--border-color);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
+    background-color: rgba(0, 129, 32, 0.08);
 }
 
 .secondary-button:disabled {
