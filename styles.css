@@ -259,7 +259,7 @@ body[data-theme="dark"] .theme-toggle {
     height: 16px;
     background: #75838f;
     border-radius: var(--radius-full);
-    left: 4px;
+    left: 2px;
     transition: transform var(--transition-base);
 }
 
